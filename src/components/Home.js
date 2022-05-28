@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Notes from './Notes';
 
 const Home = () => {
@@ -24,6 +25,14 @@ const Home = () => {
         </form>
       </div>
       <Notes/>
+=======
+import React from 'react'
+
+const Home = () => {
+  return (
+    <div>
+      This is home
+>>>>>>> bb8b5759991c6cc70455e8cc38e796cf6e563ce7
     </div>
   )
 }
