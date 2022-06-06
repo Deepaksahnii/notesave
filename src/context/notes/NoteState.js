@@ -1,9 +1,9 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import NoteContext from './noteContext'
 
 
 const NoteState = (props) => {
-const notesInitial= [
+  const notesInitial = [
     {
       "_id": "627798614cf29fa6935bf339",
       "user": "627791e92f90360bd0590846",
@@ -77,12 +77,12 @@ const notesInitial= [
       "__v": 0
     }
   ]
-const [notes, setNotes] = useState(notesInitial)
+  const [notes, setNotes] = useState(notesInitial)
   //Add a note
-  const addNote =(title, description, tag)=>{
+  const addNote = (title, description, tag) => {
     //TO DO API CALL
     console.log("Adding a new note");
-    const  note=  {
+    const note = {
       "_id": "627798614wctytyf29eeefa6h935bf339",
       "user": "627791e92f90360bd0590846",
       "title": title,
@@ -91,21 +91,23 @@ const [notes, setNotes] = useState(notesInitial)
       "date": "2022-05-08T10:16:01.767Z",
       "__v": 0
     };
-setNotes(notes.concat(note)) 
-  }
-  //Edit a note
-  const deleteNote =()=>{
-
+    setNotes(notes.concat(note))
   }
   //Delete a note
-  const editNote =()=>{
+  const deleteNote = (id) => {
+    console.log('Deleting the note with the id ' + id);
+    const newNotes = notes.filter((note) => { return note._id!==id });
+    setNotes(newNotes);
+  }
+  //Edit a Note
+  const editNote = (id, title, description, tag) => {
 
   }
-    return (
-        <NoteContext.Provider value= {{notes, addNote, deleteNote, editNote,}}>
-            {props.children}
-        </NoteContext.Provider>
-    )
+  return (
+    <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote}}>
+      {props.children}
+    </NoteContext.Provider>
+  )
 }
 
 export default NoteState;
