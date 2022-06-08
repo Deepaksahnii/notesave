@@ -1,113 +1,78 @@
-import React, { useState } from 'react'
-import NoteContext from './noteContext'
-
+import NoteContext from "./noteContext";
+import { useState } from "react";
 
 const NoteState = (props) => {
-  const notesInitial = [
-    {
-      "_id": "627798614cf29fa6935bf339",
-      "user": "627791e92f90360bd0590846",
-      "title": "Hello ji",
-      "description": "Mai hu stven grant",
-      "tag": "YouTube",
-      "date": "2022-05-08T10:16:01.767Z",
-      "__v": 0
-    },
-    {
-      "_id": "62779b0c62b26ag8ba769e70a",
-      "user": "627791e92f90360bd0590846",
-      "title": "Hello ji",
-      "description": "Mai hu Mark spector",
-      "tag": "YouTube",
-      "date": "2022-05-08T10:27:24.875Z",
-      "__v": 0
-    },
-    {
-      "_id": "627798614cf29fua6935bf339",
-      "user": "627791e92f90360bd0590846",
-      "title": "Hello ji",
-      "description": "Mai hu stven grant",
-      "tag": "YouTube",
-      "date": "2022-05-08T10:16:01.767Z",
-      "__v": 0
-    },
-    {
-      "_id": "62779b0c62b26ma8ba769e70a",
-      "user": "627791e92f90360bd0590846",
-      "title": "Hello ji",
-      "description": "Mai hu Mark spector",
-      "tag": "YouTube",
-      "date": "2022-05-08T10:27:24.875Z",
-      "__v": 0
-    },
-    {
-      "_id": "627798614cf29fa6h935bf339",
-      "user": "627791e92f90360bd0590846",
-      "title": "Hello ji",
-      "description": "Mai hu stven grant",
-      "tag": "YouTube",
-      "date": "2022-05-08T10:16:01.767Z",
-      "__v": 0
-    },
-    {
-      "_id": "62779b0c62b26a8sba769e70a",
-      "user": "627791e92f90360bd0590846",
-      "title": "Hello ji",
-      "description": "Mai hu Mark spector",
-      "tag": "YouTube",
-      "date": "2022-05-08T10:27:24.875Z",
-      "__v": 0
-    },
-    {
-      "_id": "627798614cf29fa693d5bf339",
-      "user": "627791e92f90360bd0590846",
-      "title": "Hello ji",
-      "description": "Mai hu stven grant",
-      "tag": "YouTube",
-      "date": "2022-05-08T10:16:01.767Z",
-      "__v": 0
-    },
-    {
-      "_id": "62779b0c62b26a8ba76d9e70a",
-      "user": "627791e92f90360bd0590846",
-      "title": "Hello ji",
-      "description": "Mai hu Mark spector",
-      "tag": "YouTube",
-      "date": "2022-05-08T10:27:24.875Z",
-      "__v": 0
-    }
-  ]
+  const host = "http://localhost:5000"
+  const notesInitial = []
   const [notes, setNotes] = useState(notesInitial)
-  //Add a note
-  const addNote = (title, description, tag) => {
-    //TO DO API CALL
-    console.log("Adding a new note");
-    const note = {
-      "_id": "627798614wctytyf29eeefa6h935bf339",
-      "user": "627791e92f90360bd0590846",
-      "title": title,
-      "description": description,
-      "tag": tag,
-      "date": "2022-05-08T10:16:01.767Z",
-      "__v": 0
-    };
-    setNotes(notes.concat(note))
-  }
-  //Delete a note
-  const deleteNote = (id) => {
-    console.log('Deleting the note with the id ' + id);
-    const newNotes = notes.filter((note) => { return note._id!==id });
-    setNotes(newNotes);
-  }
-  //Edit a Note
-  const editNote = (id, title, description, tag) => {
 
+  // Get all Notes
+  const getNotes = async () => {
+    // API Call 
+    const response = await fetch(`${host}/api/notes/fetchallnotes`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjI5YzA3NjE3ZjFiMjYwN2IxYmVmZTJkIn0sImlhdCI6MTY1NDM5Mjc0OH0.rqd0odBZrCJa2SWUZ1ZYQx8VLaB4NkAyDBgqQIYehhQ"
+      }
+    });
+    const json = response.json()
+    console.log(json)
+    setNotes(json)
   }
+
+  // Add a Note
+  const addNote = async (title, description, tag) => {
+    // TODO: API Call
+    // API Call 
+    const response = await fetch(`${host}/api/notes/addnote`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjI5YzA3NjE3ZjFiMjYwN2IxYmVmZTJkIn0sImlhdCI6MTY1NDM5Mjc0OH0.rqd0odBZrCJa2SWUZ1ZYQx8VLaB4NkAyDBgqQIYehhQ"
+      },
+      body: JSON.stringify({title, description, tag})
+    });
+     
+  }
+
+  // Delete a Note
+  const deleteNote = (id) => {
+    // TODO: API Call
+    console.log("Deleting the note with id" + id);
+    const newNotes = notes.filter((note) => { return note._id !== id })
+    setNotes(newNotes)
+  }
+  // Edit a Note
+  const editNote = async (id, title, description, tag) => {
+    // API Call 
+    const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjI5YzA3NjE3ZjFiMjYwN2IxYmVmZTJkIn0sImlhdCI6MTY1NDM5Mjc0OH0.rqd0odBZrCJa2SWUZ1ZYQx8VLaB4NkAyDBgqQIYehhQ"
+      },
+      body: JSON.stringify({title, description, tag})
+    });
+    const json = response.json();
+
+    // Logic to edit in client
+    for (let index = 0; index < notes.length; index++) {
+      const element = notes[index];
+      if (element._id === id) {
+        element.title = title;
+        element.description = description;
+        element.tag = tag;
+      }
+
+    }
+  }
+
   return (
-    <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote}}>
+    <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote, getNotes }}>
       {props.children}
     </NoteContext.Provider>
   )
-}
 
+}
 export default NoteState;
